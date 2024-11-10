@@ -5,8 +5,8 @@ import java.util.Objects;
 public class Product {
     private final String name;
     private final int price;
-    private final Promotion promotion;
     private final DateProvider dateProvider;
+    private Promotion promotion;
     private int quantity;
     private int promotionQuantity;
 
@@ -22,9 +22,10 @@ public class Product {
         this.promotionQuantity = count;
     }
 
-    public void addQuantity(int count, Promotion promotion) {
-        if (promotion == null) {
+    public void addQuantity(int count, Promotion promotionValue) {
+        if (this.promotion == null) {
             this.promotionQuantity = count;
+            this.promotion = promotionValue;
             return;
         }
         this.quantity = count;
@@ -116,5 +117,17 @@ public class Product {
 
     public int getPromotionQuantity() {
         return promotionQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", promotion=" + promotion +
+                ", dateProvider=" + dateProvider +
+                ", quantity=" + quantity +
+                ", promotionQuantity=" + promotionQuantity +
+                '}';
     }
 }
