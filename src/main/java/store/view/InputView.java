@@ -8,6 +8,7 @@ import store.dto.ProductItem;
 public class InputView {
     private static final String PURCHASE_ASK_MESSAGE = "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])";
     public static final String PROMOTION_ADDITIONAL_ITEM_MESSAGE = "현재 %s은(는) %d개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)";
+    public static final String NON_PROMOTION_ITEM_MESSAGE = "현재 %s은(는) %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)";
 
     public static String readItem() {
         System.out.println(PURCHASE_ASK_MESSAGE);
@@ -21,6 +22,17 @@ public class InputView {
                 .filter(additionalItem -> {
                     String input = Console.readLine();
                     return YesOrNo.of(input).equals(YesOrNo.YES);
+                })
+                .toList();
+    }
+
+    public static List<ProductItem> askForNonPromotionItems(List<ProductItem> nonPromotionItems) {
+        return nonPromotionItems.stream()
+                .peek(nonPromotionItem -> System.out.println(String.format(NON_PROMOTION_ITEM_MESSAGE,
+                        nonPromotionItem.productName(), nonPromotionItem.quantity())))
+                .filter(nonPromotionItem -> {
+                    String input = Console.readLine();
+                    return YesOrNo.of(input).equals(YesOrNo.NO);
                 })
                 .toList();
     }
