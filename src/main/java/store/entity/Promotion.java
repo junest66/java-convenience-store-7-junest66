@@ -1,6 +1,7 @@
 package store.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Promotion {
     private final String name;
@@ -35,5 +36,22 @@ public class Promotion {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Promotion promotion = (Promotion) o;
+        return buy == promotion.buy &&
+                get == promotion.get &&
+                Objects.equals(name, promotion.name) &&
+                Objects.equals(startDate, promotion.startDate) &&
+                Objects.equals(endDate, promotion.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, buy, get, startDate, endDate);
     }
 }
