@@ -22,12 +22,12 @@ public class Product {
         this.promotionQuantity = count;
     }
 
-    public void addQuantity(int count) {
+    public void addQuantity(int count, Promotion promotion) {
         if (promotion == null) {
-            this.quantity = count;
+            this.promotionQuantity = count;
             return;
         }
-        this.promotionQuantity = count;
+        this.quantity = count;
     }
 
     public void reduceQuantity(int quantity) {
