@@ -17,7 +17,7 @@ import store.entity.Promotion;
 import store.entity.Stock;
 import store.service.CartService;
 import store.service.StockService;
-import store.util.parse.ParsePromotion;
+import store.util.parse.PromotionParser;
 import store.util.parse.ProductParser;
 import store.view.InputView;
 import store.view.OutputView;
@@ -49,7 +49,7 @@ public class Application {
     private static List<Product> getInitProducts() {
         List<String> products = readFile(PRODUCT_FILE_PATH);
         List<String> promotions = readFile(PROMOTION_FILE_PATH);
-        Map<String, Promotion> parsePromotions = ParsePromotion.parse(promotions);
+        Map<String, Promotion> parsePromotions = PromotionParser.parse(promotions);
         List<Product> items = ProductParser.parse(products, parsePromotions);
         return items;
     }

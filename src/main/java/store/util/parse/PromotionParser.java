@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import store.entity.Promotion;
 
-public class ParsePromotion {
+public class PromotionParser {
     private static final String SEPARATOR = ",";
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static Map<String, Promotion> parse(List<String> promotions) {
         return promotions.stream()
                 .skip(1)  // 첫 번째 헤더 부분 제외
-                .map(ParsePromotion::parsePromotionLine)
+                .map(PromotionParser::parsePromotionLine)
                 .collect(Collectors.toMap(Promotion::getName, promotion -> promotion));
     }
 
