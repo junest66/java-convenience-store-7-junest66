@@ -2,11 +2,11 @@ package store.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import store.dto.ProductItem;
 import store.dto.StockResponse;
 import store.service.CartService;
 import store.service.StockService;
+import store.util.RetryHandler;
 import store.util.parse.ParsePurchaseItem;
 import store.view.InputView;
 import store.view.OutputView;
@@ -32,7 +32,7 @@ public class PurchaseController {
     }
 
     private void inputPromotionStock() {
-        handleWithRetry(() -> {
+        RetryHandler.handleWithRetry(() -> {
             List<ProductItem> nonPromotionItems = cartService.getNonPromotion();
             if (!nonPromotionItems.isEmpty()) {
                 List<ProductItem> removeNonPromotionItems = InputView.askForNonPromotionItems(nonPromotionItems);
@@ -42,7 +42,7 @@ public class PurchaseController {
     }
 
     private void inputPurchaseItem() {
-        handleWithRetry(() -> {
+        RetryHandler.handleWithRetry(() -> {
             String items = InputView.readItem();
             Map<String, Integer> parseItems = ParsePurchaseItem.parse(items);
             cartService.purchase(parseItems);
@@ -50,7 +50,7 @@ public class PurchaseController {
     }
 
     private void inputAdditionalPromotionItem() {
-        handleWithRetry(() -> {
+        RetryHandler.handleWithRetry(() -> {
             List<ProductItem> additionalItems = cartService.getPromotionAdditionalItems();
             if (!additionalItems.isEmpty()) {
                 List<ProductItem> items = InputView.askForPromotionItems(additionalItems);
@@ -60,27 +60,6 @@ public class PurchaseController {
     }
 
     private boolean inputMembership() {
-        return handleWithRetry(() -> InputView.askForMembership());
-    }
-
-    private void handleWithRetry(Runnable action) {
-        while (true) {
-            try {
-                action.run();
-                break;
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
-        }
-    }
-
-    private <T> T handleWithRetry(Supplier<T> action) {
-        while (true) {
-            try {
-                return action.get();
-            } catch (IllegalArgumentException e) {
-                OutputView.printErrorMessage(e.getMessage());
-            }
-        }
+        return RetryHandler.handleWithRetry(() -> InputView.askForMembership());
     }
 }

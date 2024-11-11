@@ -4,6 +4,7 @@ import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
 import store.constant.YesOrNo;
 import store.dto.ProductItem;
+import store.util.RetryHandler;
 
 public class InputView {
     private static final String PURCHASE_ASK_MESSAGE = "구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])";
@@ -21,10 +22,7 @@ public class InputView {
         return additionalItems.stream()
                 .peek(additionalItem -> System.out.println(String.format(PROMOTION_ADDITIONAL_ITEM_MESSAGE,
                         additionalItem.productName(), additionalItem.quantity())))
-                .filter(additionalItem -> {
-                    String input = Console.readLine();
-                    return YesOrNo.of(input).equals(YesOrNo.YES);
-                })
+                .filter(additionalItem -> inputYesOrNo().equals(YesOrNo.YES))
                 .toList();
     }
 
@@ -32,10 +30,7 @@ public class InputView {
         return nonPromotionItems.stream()
                 .peek(nonPromotionItem -> System.out.println(String.format(NON_PROMOTION_ITEM_MESSAGE,
                         nonPromotionItem.productName(), nonPromotionItem.quantity())))
-                .filter(nonPromotionItem -> {
-                    String input = Console.readLine();
-                    return YesOrNo.of(input).equals(YesOrNo.NO);
-                })
+                .filter(nonPromotionItem -> inputYesOrNo().equals(YesOrNo.NO))
                 .toList();
     }
 
@@ -47,7 +42,10 @@ public class InputView {
 
     public static YesOrNo askForAdditionalPurchase() {
         System.out.println(EXTRA_PURCHASE_ASK_MESSAGE);
-        String input = Console.readLine();
-        return YesOrNo.of(input);
+        return RetryHandler.handleWithRetry(() -> inputYesOrNo());
+    }
+
+    private static YesOrNo inputYesOrNo() {
+        return YesOrNo.of(Console.readLine());
     }
 }
