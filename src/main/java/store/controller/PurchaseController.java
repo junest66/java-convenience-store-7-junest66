@@ -7,7 +7,7 @@ import store.dto.StockResponse;
 import store.service.CartService;
 import store.service.StockService;
 import store.util.RetryHandler;
-import store.util.parse.ParsePurchaseItem;
+import store.util.parse.PurchaseItemParser;
 import store.view.InputView;
 import store.view.OutputView;
 
@@ -44,7 +44,7 @@ public class PurchaseController {
     private void inputPurchaseItem() {
         RetryHandler.handleWithRetry(() -> {
             String items = InputView.readItem();
-            Map<String, Integer> parseItems = ParsePurchaseItem.parse(items);
+            Map<String, Integer> parseItems = PurchaseItemParser.parse(items);
             cartService.purchase(parseItems);
         });
     }

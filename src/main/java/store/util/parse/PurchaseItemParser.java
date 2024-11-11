@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import store.util.validator.PurchaseItemValidator;
 
-public class ParsePurchaseItem {
+public class PurchaseItemParser {
     private static final String ITEM_SEPARATOR = ",";
     private static final String ITEM_REGEX = "[\\[\\]]";
     private static final String ITEM_QUANTITY_SEPARATOR = "-";
