@@ -17,6 +17,7 @@ public class OutputView {
     private static final String NAME_QUANTITY_ONLY = "%-17s %d";
     private static final String RECEIPT_FOOTER = "====================================";
     private static final String NAME_AMOUNT_ONLY = "%-27s -%,d";
+    private static final String NAME_AMOUNT_FINAL_AMOUNT = "%-27s %,d";
     private static final String TOTAL_AMOUNT_LABEL = "총구매액";
     private static final String EVENT_DISCOUNT_LABEL = "행사할인";
     private static final String MEMBERSHIP_DISCOUNT_LABEL = "멤버십할인";
@@ -87,6 +88,6 @@ public class OutputView {
         System.out.printf(NAME_AMOUNT_ONLY + "\n", EVENT_DISCOUNT_LABEL, receipt.amount().promotionDiscountAmount());
         System.out.printf(NAME_AMOUNT_ONLY + "\n", MEMBERSHIP_DISCOUNT_LABEL,
                 receipt.amount().membershipDiscountAmount());
-        System.out.printf(NAME_AMOUNT_ONLY + "\n", FINAL_PAYMENT_LABEL, receipt.amount().finalAmount());
+        System.out.printf(NAME_AMOUNT_FINAL_AMOUNT + "\n", FINAL_PAYMENT_LABEL, receipt.amount().finalAmount());
     }
 }
