@@ -45,8 +45,9 @@ public class InputView {
         return YesOrNo.of(input).equals(YesOrNo.YES);
     }
 
-    public static String askForAdditionalPurchase() {
+    public static YesOrNo askForAdditionalPurchase() {
         System.out.println(EXTRA_PURCHASE_ASK_MESSAGE);
-        return Console.readLine();
+        String input = Console.readLine();
+        return YesOrNo.of(input);
     }
 }
