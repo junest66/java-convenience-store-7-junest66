@@ -25,6 +25,7 @@ import store.view.OutputView;
 public class Application {
     private static final String PRODUCT_FILE_PATH = "src/main/resources/products.md";
     private static final String PROMOTION_FILE_PATH = "src/main/resources/promotions.md";
+    private static final String FILE_ERROR_MESSAGE = ERROR_PREFIX + "파일을 읽는데 실패했습니다.";
 
     public static void main(String[] args) {
         List<Product> items = getInitProducts();
@@ -58,7 +59,7 @@ public class Application {
             Path path = Paths.get(filePath);
             return Files.readAllLines(path);
         } catch (IOException e) {
-            throw new UncheckedIOException(ERROR_PREFIX + "파일을 읽는데 실패했습니다.", e);
+            throw new UncheckedIOException(FILE_ERROR_MESSAGE, e);
         }
     }
 }
