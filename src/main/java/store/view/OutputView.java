@@ -1,6 +1,7 @@
 package store.view;
 
 import java.util.List;
+import store.dto.ProductItem;
 import store.dto.Receipt;
 import store.dto.StockResponse;
 
@@ -10,11 +11,11 @@ public class OutputView {
     private static final String REGULAR_IN_STOCK_FORMAT = "- %s %,d원 %s";
     private static final String RECEIPT_HEADER = "==============W 편의점================";
     private static final String RECEIPT_ITEM_HEADER = String.format("%-17s %-9s %-1s", "상품명", "수량", "금액");
-    private static final String NAME_QUANTITY_PRICE = "%-17s %-10d %-,6d";
-    private static final String RECEIPT_PROMOTION_HEADER = "=============증\t정===============";
-    private static final String NAME_QUANTITY_ONLY = "%-20s %16d";
+    private static final String NAME_QUANTITY_PRICE = "%-17s %-9d %,d";
+    private static final String RECEIPT_PROMOTION_HEADER = "=============증    정===============";
+    private static final String NAME_QUANTITY_ONLY = "%-17s %d";
     private static final String RECEIPT_FOOTER = "====================================";
-    private static final String NAME_AMOUNT_ONLY = "%-30s %,10d";
+    private static final String NAME_AMOUNT_ONLY = "%-27s -%,d";
     private static final String TOTAL_AMOUNT_LABEL = "총구매액";
     private static final String EVENT_DISCOUNT_LABEL = "행사할인";
     private static final String MEMBERSHIP_DISCOUNT_LABEL = "멤버십할인";
@@ -69,12 +70,11 @@ public class OutputView {
     }
 
     private static void printPresent(Receipt receipt) {
-        System.out.println(RECEIPT_PROMOTION_HEADER);
-        for (int i = 0; i < receipt.promotionDiscountedItems().size(); i++) {
-            System.out.println(String.format(NAME_QUANTITY_ONLY,
-                    receipt.promotionDiscountedItems().get(i).productName(),
-                    receipt.promotionDiscountedItems().get(i).quantity()
-            ));
+        List<ProductItem> discountedItems = receipt.promotionDiscountedItems();
+        if (!discountedItems.isEmpty()) {
+            System.out.println(RECEIPT_PROMOTION_HEADER);
+            discountedItems.forEach(
+                    item -> System.out.println(String.format(NAME_QUANTITY_ONLY, item.productName(), item.quantity())));
         }
         System.out.println(RECEIPT_FOOTER);
     }
