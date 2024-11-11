@@ -2,6 +2,7 @@ package store.view;
 
 import java.util.List;
 import store.dto.ProductItem;
+import store.dto.ProductItemWithPrice;
 import store.dto.Receipt;
 import store.dto.StockResponse;
 
@@ -60,11 +61,11 @@ public class OutputView {
 
     private static void printPurchaseProduct(Receipt receipt) {
         System.out.println(RECEIPT_ITEM_HEADER);
-        for (int i = 0; i < receipt.purchaseProducts().size(); i++) {
+        for (ProductItemWithPrice productItem: receipt.purchaseProducts()) {
             System.out.println(String.format(NAME_QUANTITY_PRICE,
-                    receipt.purchaseProducts().get(i).productName(),
-                    receipt.purchaseProducts().get(i).quantity(),
-                    receipt.purchaseProducts().get(i).quantity() * receipt.purchaseProducts().get(i).price()
+                    productItem.productName(),
+                    productItem.quantity(),
+                    productItem.quantity() * productItem.price()
             ));
         }
     }
