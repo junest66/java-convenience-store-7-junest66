@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import store.dto.FinalPaymentProduct;
 import store.dto.ProductItem;
 
 class CartTest {
@@ -73,9 +74,9 @@ class CartTest {
         cart.addProduct(productWithoutPromotion, 4);
 
         FinalPaymentProduct finalPayment = cart.getFinalPaymentItems();
-        assertThat(finalPayment.getDiscountedCart().getCartItem()).containsEntry(productWithPromotion, 3);
-        assertThat(finalPayment.getNonDiscountedCart().getCartItem()).containsEntry(productWithoutPromotion, 4);
-        assertThat(finalPayment.getNonDiscountedCart().getCartItem()).containsEntry(productWithPromotion, 4);
+        assertThat(finalPayment.discountedCart().getCartItem()).containsEntry(productWithPromotion, 3);
+        assertThat(finalPayment.nonDiscountedCart().getCartItem()).containsEntry(productWithoutPromotion, 4);
+        assertThat(finalPayment.nonDiscountedCart().getCartItem()).containsEntry(productWithPromotion, 4);
     }
 
     @Test
